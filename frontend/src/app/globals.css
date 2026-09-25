@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Charcoal & Carbon Black Design System Tokens with Amber Accents */
+  --gov-navy-primary: #121417;
+  --gov-navy-dark: #0a0b0d;
+  --gov-carbon: #181b20;
+  --gov-gold: #f59e0b;
+  --gov-gold-light: #fbbf24;
+  --gov-green: #10b981;
+  --surface-bg: #f3f4f6;
+  --surface-card: #ffffff;
+  --border-subtle: #e5e7eb;
+  --statutory-green: #059669;
+  --alert-amber: #d97706;
+  --warning-red: #dc2626;
+  --bhuvan-teal: #0d9488;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+
+  --background: #f3f4f6;
+  --foreground: #111827;
+}
+
+body {
+  background-color: var(--surface-bg);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* GIGW 3.0 Dynamic Text Scaling */
+body.font-size-sm {
+  font-size: 13px;
+}
+body.font-size-md {
+  font-size: 14px;
+}
+body.font-size-lg {
+  font-size: 15.5px;
+}
+
+/* Tricolor Top Bar */
+.gov-tricolor-stripe {
+  height: 3.5px;
+  background: linear-gradient(90deg, #ff9933 33.33%, #ffffff 33.33%, #ffffff 66.66%, #138808 66.66%);
+}
+
+/* Clean Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
