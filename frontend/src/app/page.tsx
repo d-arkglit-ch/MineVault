@@ -174,6 +174,8 @@ const INITIAL_DISCREPANCIES: DiscrepancyItem[] = [
   },
 ];
 
+import { API_BASE_URL } from "@/utils/api";
+
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<string>("dashboard");
   const [isIngestionModalOpen, setIsIngestionModalOpen] = useState(false);
@@ -184,7 +186,7 @@ export default function HomePage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const bhRes = await fetch("http://localhost:8000/api/v1/boreholes/");
+        const bhRes = await fetch(`${API_BASE_URL}/api/v1/boreholes/`);
         if (bhRes.ok) {
           const data = await bhRes.json();
           setBoreholes(data);
@@ -194,7 +196,7 @@ export default function HomePage() {
       }
 
       try {
-        const discRes = await fetch("http://localhost:8000/api/v1/discrepancies/");
+        const discRes = await fetch(`${API_BASE_URL}/api/v1/discrepancies/`);
         if (discRes.ok) {
           const data = await discRes.json();
           setDiscrepancies(data);
@@ -235,12 +237,12 @@ export default function HomePage() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   const tabTitles: Record<string, string> = {
-    dashboard: language === "EN" ? "1. Executive Dashboard & National Overview" : "१. कार्यकारी डैशबोर्ड",
-    boreholes: language === "EN" ? "2. Sector Borehole Directory & Drill Logs" : "२. सेक्टर बोरहोल निर्देशिका",
-    maps: language === "EN" ? "3. Block Exploration Maps & Stratigraphic Cross-Section" : "३. ब्लॉक अन्वेषण मानचित्र",
-    reports: language === "EN" ? "4. AI Geological Report Studio & PQ Briefs" : "४. भूवैज्ञानिक रिपोर्ट स्टूडियो",
-    verification: language === "EN" ? "5. Multi-Agency Verification & Reconciliation Queue" : "५. सत्यापन और समाधान कतार",
-    repository: language === "EN" ? "6. National Data Repository & Form-V Archive" : "६. राष्ट्रीय डेटा भंडार",
+    dashboard: language === "EN" ? "Executive Dashboard & Overview" : "कार्यकारी डैशबोर्ड",
+    boreholes: language === "EN" ? "Borehole Directory & Drill Logs" : "सेक्टर बोरहोल निर्देशिका",
+    maps: language === "EN" ? "Block Exploration Maps & GIS" : "ब्लॉक अन्वेषण मानचित्र",
+    reports: language === "EN" ? "Geological Report Studio & PQ Briefs" : "भूवैज्ञानिक रिपोर्ट स्टूडियो",
+    verification: language === "EN" ? "Verification & Reconciliation Queue" : "सत्यापन और समाधान कतार",
+    repository: language === "EN" ? "National Data Repository & Form-V" : "राष्ट्रीय डेटा भंडार",
   };
 
   return (

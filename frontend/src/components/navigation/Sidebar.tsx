@@ -35,18 +35,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onClose,
 }) => {
   const navItems = [
-    { id: "dashboard", label: language === "EN" ? "Dashboard" : "डैशबोर्ड", icon: Activity, number: "1" },
-    { id: "boreholes", label: language === "EN" ? "Borehole Directory" : "बोरहोल निर्देशिका", icon: Layers, number: "2" },
-    { id: "maps", label: language === "EN" ? "Block Exploration Maps" : "ब्लॉक अन्वेषण मानचित्र", icon: MapPin, number: "3" },
-    { id: "reports", label: language === "EN" ? "Geological Reports" : "भूवैज्ञानिक रिपोर्ट", icon: FileText, number: "4" },
+    { id: "dashboard", label: language === "EN" ? "Dashboard" : "डैशबोर्ड", icon: Activity },
+    { id: "boreholes", label: language === "EN" ? "Borehole Directory" : "बोरहोल निर्देशिका", icon: Layers },
+    { id: "maps", label: language === "EN" ? "Exploration Maps" : "अन्वेषण मानचित्र", icon: MapPin },
+    { id: "reports", label: language === "EN" ? "Geological Reports" : "भूवैज्ञानिक रिपोर्ट", icon: FileText },
     {
       id: "verification",
       label: language === "EN" ? "Verification Queue" : "सत्यापन कतार",
       icon: CheckCircle2,
       badge: discrepancyCount,
-      number: "5"
     },
-    { id: "repository", label: language === "EN" ? "National Data Repository" : "राष्ट्रीय डेटा भंडार", icon: Database, number: "6" },
+    { id: "repository", label: language === "EN" ? "National Repository" : "राष्ट्रीय डेटा भंडार", icon: Database },
   ];
 
   const handleNavClick = (tabId: string) => {
@@ -124,9 +123,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Navigation Links */}
-        <nav className="flex-1 p-3 space-y-1.5 overflow-y-auto">
-          <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider px-2 py-1">
-            Navigation Modules
+        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+          <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider px-2 py-1 mb-1">
+            Modules
           </div>
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -142,11 +141,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
               >
                 <div className="flex items-center space-x-2.5 truncate">
                   <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-amber-400" : "text-slate-400"}`} />
-                  <span className="truncate">{item.number}. {item.label}</span>
+                  <span className="truncate">{item.label}</span>
                 </div>
 
                 {item.badge !== undefined && item.badge > 0 ? (
-                  <span className="ml-1.5 px-1.5 py-0.2 text-[10px] font-bold rounded-full bg-amber-500 text-slate-950">
+                  <span className="ml-1.5 px-2 py-0.5 text-[10px] font-bold rounded-full bg-amber-500 text-slate-950">
                     {item.badge}
                   </span>
                 ) : isActive ? (

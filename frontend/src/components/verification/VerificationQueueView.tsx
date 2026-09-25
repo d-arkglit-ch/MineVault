@@ -13,6 +13,7 @@ import {
   Award
 } from "lucide-react";
 import { DiscrepancyItem } from "@/types/geological";
+import { API_BASE_URL } from "@/utils/api";
 
 interface VerificationQueueViewProps {
   discrepancies: DiscrepancyItem[];
@@ -32,7 +33,7 @@ export const VerificationQueueView: React.FC<VerificationQueueViewProps> = ({
     setIsApproving(true);
 
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/discrepancies/${activeItem.discrepancyId}/approve`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/discrepancies/${activeItem.discrepancyId}/approve`, {
         method: "POST",
       });
       if (res.ok) {
@@ -57,12 +58,12 @@ export const VerificationQueueView: React.FC<VerificationQueueViewProps> = ({
   return (
     <div className="space-y-6">
       {/* 1. Header Notice Bar */}
-      <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
         <div>
           <div className="flex items-center space-x-2">
             <CheckCircle2 className="w-5 h-5 text-amber-600" />
-            <h2 className="font-bold text-base text-[#121417]">
-              Statutory Discrepancy &amp; Joint Technical Committee Reconciliation Flow
+            <h2 className="font-bold text-sm sm:text-base text-slate-900">
+              Discrepancy Reconciliation &amp; Joint Review Queue
             </h2>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -70,28 +71,28 @@ export const VerificationQueueView: React.FC<VerificationQueueViewProps> = ({
           </p>
         </div>
 
-        <span className="text-xs bg-amber-50 text-amber-900 border border-amber-300 px-3 py-1 rounded-full font-semibold flex items-center space-x-1">
+        <span className="text-xs bg-amber-50 text-amber-900 border border-amber-200/80 px-3 py-1 rounded-full font-semibold flex items-center space-x-1.5">
           <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-          <span>Active Review Dockets: {discrepancies.length}</span>
+          <span>{discrepancies.length} Review Dockets</span>
         </span>
       </div>
 
-      {/* 2. Side-by-Side Agency Comparison Card (Design Doc Section 6.3) */}
+      {/* 2. Side-by-Side Agency Comparison Card */}
       {activeItem && (
-        <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden space-y-6 p-6">
+        <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden space-y-5 p-5 sm:p-6">
           {/* Top Docket Metadata */}
-          <div className="flex flex-wrap items-center justify-between border-b border-slate-200 pb-4 gap-2">
+          <div className="flex flex-wrap items-center justify-between border-b border-slate-100 pb-4 gap-2">
             <div>
               <span className="text-xs font-semibold text-amber-700 uppercase tracking-wider">
-                Discrepancy Docket: {activeItem.auditDocketNo}
+                Docket: {activeItem.auditDocketNo}
               </span>
-              <h3 className="text-xl font-extrabold text-[#0c2340]">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mt-0.5">
                 Borehole {activeItem.boreholeId} — {activeItem.seam} ({activeItem.block})
               </h3>
             </div>
             <div className="flex items-center space-x-2">
-              <span className="text-xs px-2.5 py-1 bg-amber-100 text-amber-900 rounded font-semibold border border-amber-300">
-                Status: {approvalMessage ? "RESOLVED & CERTIFIED" : activeItem.status}
+              <span className="text-xs px-2.5 py-1 bg-amber-50 text-amber-800 rounded-full font-semibold border border-amber-200/70">
+                {approvalMessage ? "RESOLVED & CERTIFIED" : activeItem.status}
               </span>
             </div>
           </div>

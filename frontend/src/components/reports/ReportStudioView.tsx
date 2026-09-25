@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { ReportModeType, GeneratedReportResponse, FactEvidenceCitation } from "@/types/geological";
 import { generatePQReportPDF } from "@/utils/pdfGenerator";
+import { API_BASE_URL } from "@/utils/api";
 
 export const ReportStudioView: React.FC = () => {
   const [selectedMode, setSelectedMode] = useState<ReportModeType>("PQ_FAST_RESPONSE");
@@ -27,7 +28,7 @@ export const ReportStudioView: React.FC = () => {
   const handleGenerate = async () => {
     setIsGenerating(true);
     try {
-      const res = await fetch("http://localhost:8000/api/v1/reports/generate", {
+      const res = await fetch(`${API_BASE_URL}/api/v1/reports/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -106,12 +107,12 @@ export const ReportStudioView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* 1. Header Bar */}
-      <div className="bg-white p-4 rounded-lg border border-[#d9e2ec] shadow-sm flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
         <div>
           <div className="flex items-center space-x-2">
-            <FileText className="w-5 h-5 text-[#0c2340]" />
-            <h2 className="font-bold text-base text-[#0c2340]">
-              AI Geological Report Studio &amp; Parliamentary Question (PQ) Desk
+            <FileText className="w-5 h-5 text-slate-800" />
+            <h2 className="font-bold text-sm sm:text-base text-slate-900">
+              Geological Report Studio &amp; Parliamentary Question Desk
             </h2>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -119,20 +120,18 @@ export const ReportStudioView: React.FC = () => {
           </p>
         </div>
 
-        {/* Live Efficiency Benchmark Tracker (PRD FR-6) */}
-        <div className="flex items-center space-x-3 bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-200 text-xs">
-          <Clock className="w-4 h-4 text-emerald-700" />
-          <div>
-            <span className="font-bold text-emerald-900">Efficiency Benchmark: </span>
-            <span className="text-emerald-700">~3h 40m manual vs. ~42s AI (98.2% Gain)</span>
-          </div>
+        {/* Efficiency Benchmark Pill */}
+        <div className="flex items-center space-x-2 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200/70 text-xs">
+          <Clock className="w-3.5 h-3.5 text-emerald-700" />
+          <span className="font-bold text-emerald-900">42s AI Compilation</span>
+          <span className="text-emerald-700">(98.2% Speedup)</span>
         </div>
       </div>
 
       {/* 2. Mode Selectors & Controls */}
-      <div className="bg-white p-5 rounded-lg border border-[#d9e2ec] shadow-sm space-y-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-          Select Statutory Report Template Mode (PRD FR-10)
+      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-xs space-y-4">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          Select Statutory Report Template
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -140,53 +139,53 @@ export const ReportStudioView: React.FC = () => {
             {
               id: "PQ_FAST_RESPONSE",
               title: "PQ Fast-Response",
-              desc: "Lok Sabha / Rajya Sabha starred questions format (<45s)",
-              tag: "Immediate Priority",
+              desc: "Lok Sabha / Rajya Sabha starred inquiries format (<45s)",
+              tag: "Immediate",
             },
             {
               id: "EXECUTIVE_SUMMARY",
               title: "Executive Summary",
               desc: "High-level reserves, grade bands, and stripping ratios",
-              tag: "CIL Board Mode",
+              tag: "CIL Board",
             },
             {
               id: "HISTORICAL_TREND",
               title: "Historical Trend",
-              desc: "40-year survey evolution (GSI 1985, MECL 1998, CMPDI 2021)",
-              tag: "Decadal Analysis",
+              desc: "40-year survey evolution (GSI, MECL, CMPDI)",
+              tag: "Decadal",
             },
             {
               id: "STATUTORY_AUDIT",
               title: "Statutory Audit",
-              desc: "DGMS CMR 2017 Reg 113 & Form-V compliance registers",
+              desc: "DGMS CMR 2017 Reg 113 & Form-V registers",
               tag: "Safety & Legal",
             },
           ].map((mode) => (
             <div
               key={mode.id}
               onClick={() => setSelectedMode(mode.id as ReportModeType)}
-              className={`p-3.5 rounded-lg border cursor-pointer transition-all ${
+              className={`p-3.5 rounded-xl border cursor-pointer transition-all ${
                 selectedMode === mode.id
-                  ? "border-[#0c2340] bg-slate-50/90 shadow-sm ring-1 ring-[#0c2340]"
-                  : "border-slate-200 hover:border-slate-400 bg-white"
+                  ? "border-slate-900 bg-slate-50 shadow-xs ring-1 ring-slate-900"
+                  : "border-slate-200 hover:border-slate-300 bg-white"
               }`}
             >
-              <div className="flex items-center justify-between text-xs font-bold text-[#0c2340]">
+              <div className="flex items-center justify-between text-xs font-bold text-slate-900">
                 <span>{mode.title}</span>
-                <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-200 text-slate-700 font-mono">
+                <span className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-mono">
                   {mode.tag}
                 </span>
               </div>
-              <p className="text-xs text-slate-500 mt-1.5 leading-tight">{mode.desc}</p>
+              <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{mode.desc}</p>
             </div>
           ))}
         </div>
 
         {/* Generate Trigger Bar */}
-        <div className="flex flex-wrap items-center justify-between pt-2 border-t border-slate-100 gap-3">
-          <div className="flex items-center space-x-3 text-xs">
-            <span className="text-slate-500 font-medium">Target Block:</span>
-            <span className="font-bold text-[#0c2340] bg-slate-100 px-2.5 py-1 rounded">
+        <div className="flex flex-wrap items-center justify-between pt-3 border-t border-slate-100 gap-3">
+          <div className="flex items-center space-x-2 text-xs">
+            <span className="text-slate-400 font-medium">Target Block:</span>
+            <span className="font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-md">
               {coalfield} — {block}
             </span>
           </div>
@@ -194,7 +193,7 @@ export const ReportStudioView: React.FC = () => {
           <button
             onClick={handleGenerate}
             disabled={isGenerating}
-            className="px-5 py-2.5 bg-[#0c2340] hover:bg-[#081729] text-white text-xs font-bold rounded-md shadow flex items-center space-x-2 transition-colors disabled:opacity-50"
+            className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg shadow-sm flex items-center space-x-2 transition-colors disabled:opacity-50"
           >
             <Sparkles className="w-4 h-4 text-amber-400" />
             <span>{isGenerating ? "Compiling via Multi-Agent..." : "Generate Cited Report Brief"}</span>

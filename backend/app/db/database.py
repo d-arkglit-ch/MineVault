@@ -9,10 +9,17 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from app.core.config import settings
 
-# Normalize DATABASE_URL for synchronous driver if sqlite+aiosqlite is provided
-raw_url = settings.DATABASE_URL
+# Normalize DATABASE_URL for synchronous driver if sqlite+aiosqlite or postgres is provided
+raw_url = settings.DATABASE_URL.strip() if settings.DATABASE_URL else ""
+if not raw_url:
+    raise ValueError("DATABASE_URL is not set. Please set DATABASE_URL in backend/.env or your environment variables.")
+
 if raw_url.startswith("sqlite+aiosqlite://"):
     raw_url = raw_url.replace("sqlite+aiosqlite://", "sqlite://", 1)
+elif raw_url.startswith("postgres://"):
+    raw_url = raw_url.replace("postgres://", "postgresql+psycopg2://", 1)
+elif raw_url.startswith("postgresql://") and not raw_url.startswith("postgresql+"):
+    raw_url = raw_url.replace("postgresql://", "postgresql+psycopg2://", 1)
 
 # Ensure relative SQLite path is resolved relative to backend directory
 if raw_url.startswith("sqlite:///"):
@@ -30,6 +37,7 @@ if raw_url.startswith("sqlite"):
 engine = create_engine(
     raw_url,
     connect_args=connect_args,
+    pool_pre_ping=True,
     echo=False
 )
 

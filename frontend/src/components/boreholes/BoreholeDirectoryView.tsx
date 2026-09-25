@@ -45,89 +45,89 @@ export const BoreholeDirectoryView: React.FC<BoreholeDirectoryViewProps> = ({
   return (
     <div className="space-y-4">
       {/* 1. Header & Filters Bar */}
-      <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center space-x-2.5">
-          <Layers className="w-5 h-5 text-[#121417]" />
-          <h2 className="font-bold text-base text-[#121417]">
-            National Borehole Directory (14-Sector Well Registry)
+          <Layers className="w-5 h-5 text-slate-800" />
+          <h2 className="font-bold text-sm sm:text-base text-slate-900">
+            National Borehole Directory
           </h2>
-          <span className="text-xs px-2 py-0.5 rounded-md bg-slate-100 font-mono text-slate-700">
+          <span className="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 font-mono text-slate-700 font-medium">
             {filteredBoreholes.length} Records
           </span>
         </div>
 
-        <div className="flex items-center space-x-3 w-full sm:w-auto">
+        <div className="flex items-center space-x-2.5 w-full sm:w-auto">
           <div className="relative flex-1 sm:w-64">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search Borehole ID, Coalfield..."
-              className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#0c2340]"
+              placeholder="Search ID, coalfield, grade..."
+              className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all placeholder:text-slate-400"
             />
           </div>
 
-          <div className="flex items-center space-x-1 text-xs">
-            <Filter className="w-3.5 h-3.5 text-slate-500" />
+          <div className="flex items-center space-x-1.5 text-xs">
+            <Filter className="w-3.5 h-3.5 text-slate-400" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="py-1.5 px-2 text-xs bg-slate-50 border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#0c2340]"
+              className="py-1.5 px-2.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all text-slate-700 font-medium"
             >
               <option value="ALL">All Clearances</option>
               <option value="DGMS_CLEARED">DGMS Cleared</option>
-              <option value="UNDER_JOINT_REVIEW">Under Joint Review</option>
-              <option value="FLAGGED_DISCREPANCY">Discrepancy Flagged</option>
+              <option value="UNDER_JOINT_REVIEW">Under Review</option>
+              <option value="FLAGGED_DISCREPANCY">Discrepancy</option>
             </select>
           </div>
         </div>
       </div>
 
       {/* 2. Borehole Tabular Register */}
-      <div className="bg-white rounded-lg border border-[#d9e2ec] shadow-sm overflow-hidden">
+      <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#0c2340] text-white uppercase text-[11px] font-semibold tracking-wider">
+            <thead className="bg-slate-900 text-slate-200 uppercase text-[10px] font-semibold tracking-wider">
               <tr>
                 <th className="py-3 px-4">Borehole ID</th>
                 <th className="py-3 px-4">Sector / Block</th>
-                <th className="py-3 px-4">Coordinates (WGS84)</th>
+                <th className="py-3 px-4">Coordinates</th>
                 <th className="py-3 px-4">Total Depth</th>
                 <th className="py-3 px-4">Seam Thickness</th>
                 <th className="py-3 px-4">Coal Grade</th>
-                <th className="py-3 px-4">Proximate (Ash / GCV)</th>
+                <th className="py-3 px-4">Proximate Assay</th>
                 <th className="py-3 px-4">Clearance Status</th>
                 <th className="py-3 px-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#d9e2ec]">
+            <tbody className="divide-y divide-slate-100">
               {filteredBoreholes.map((b) => (
                 <tr
                   key={b.boreholeId}
                   onClick={() => setSelectedBorehole(b)}
-                  className={`hover:bg-slate-50 cursor-pointer transition-colors ${
-                    selectedBorehole?.boreholeId === b.boreholeId ? "bg-amber-50/60" : ""
+                  className={`hover:bg-slate-50/80 cursor-pointer transition-colors ${
+                    selectedBorehole?.boreholeId === b.boreholeId ? "bg-amber-50/50" : ""
                   }`}
                 >
-                  <td className="py-3 px-4 font-mono font-bold text-[#0c2340] flex items-center space-x-1.5">
+                  <td className="py-3 px-4 font-mono font-bold text-slate-900 flex items-center space-x-1.5">
                     <span>{b.boreholeId}</span>
                     {b.statutoryClearance === "FLAGGED_DISCREPANCY" && (
-                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping" />
+                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
                     )}
                   </td>
                   <td className="py-3 px-4 text-slate-700">{b.sectorBlock}</td>
-                  <td className="py-3 px-4 font-mono text-slate-600 text-[11px]">
+                  <td className="py-3 px-4 font-mono text-slate-500 text-[11px]">
                     {b.coordinates.latitude}, {b.coordinates.longitude}
                   </td>
                   <td className="py-3 px-4 font-semibold text-slate-900">
                     {b.totalDrilledDepthMeters.toFixed(2)} m
                   </td>
-                  <td className="py-3 px-4 font-bold text-[#0c2340]">
+                  <td className="py-3 px-4 font-bold text-slate-900">
                     {b.targetSeamThickness.toFixed(2)} m
                   </td>
                   <td className="py-3 px-4">
-                    <span className="px-2 py-0.5 bg-blue-50 text-blue-800 rounded font-semibold border border-blue-200">
+                    <span className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded font-semibold text-[11px] border border-blue-200/60">
                       {b.coalGrade}
                     </span>
                   </td>
@@ -136,26 +136,26 @@ export const BoreholeDirectoryView: React.FC<BoreholeDirectoryViewProps> = ({
                   </td>
                   <td className="py-3 px-4">
                     {b.statutoryClearance === "DGMS_CLEARED" && (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/70">
                         <ShieldCheck className="w-3 h-3 mr-1" />
                         DGMS Cleared
                       </span>
                     )}
                     {b.statutoryClearance === "UNDER_JOINT_REVIEW" && (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200/70">
                         Under Review
                       </span>
                     )}
                     {b.statutoryClearance === "FLAGGED_DISCREPANCY" && (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-red-50 text-red-700 border border-red-200">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-700 border border-red-200/70">
                         <AlertTriangle className="w-3 h-3 mr-1" />
-                        Discrepancy (MECL vs CMPDI)
+                        Discrepancy
                       </span>
                     )}
                   </td>
                   <td className="py-3 px-4 text-right">
-                    <button className="px-2.5 py-1 text-xs bg-slate-100 hover:bg-[#0c2340] hover:text-white rounded transition-colors text-slate-700 font-medium">
-                      View Dossier
+                    <button className="px-2.5 py-1 text-xs bg-slate-100 hover:bg-slate-900 hover:text-white rounded-md transition-colors text-slate-700 font-medium">
+                      View Logs
                     </button>
                   </td>
                 </tr>
